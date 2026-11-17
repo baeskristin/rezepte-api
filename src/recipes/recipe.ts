@@ -1,4 +1,14 @@
-export const recipes = [
+export type Recipe = 
+  { 
+    id: number; 
+    title: string; 
+    minutes: number; 
+    servings: number;
+    rating: string;
+    price: number
+  };
+
+export const mockRecipes: Recipe[] = [
   {
     id: 1,
     title: "Spaghetti Carbonara",

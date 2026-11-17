@@ -1,4 +1,4 @@
-export type Recipe = 
+export interface Recipe 
   { 
     id: number; 
     title: string; 

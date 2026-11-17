@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { getRecipesHandler, getRecipeHandler } from "./controller";
+import { getRecipesHandler, getRecipeHandler, createRecipeHandler, deleteRecipeHandler } from "./controller";
 
 const router = Router();
 
 router.get("/", getRecipesHandler);
-router.get("/:id", getRecipeHandler)
+router.post("/", createRecipeHandler);
+router.get("/:id", getRecipeHandler);
+router.delete("/:id", deleteRecipeHandler);
 
 export default router;

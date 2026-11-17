@@ -19,28 +19,15 @@ app.get("/health", (req, res) => {
 // GET all recipes and optional filter by maxMinutes
 app.get("/recipes", (req, res ) => {
     const maxMinutes = Number(req.query.maxMinutes);
-
-     if (maxMinutes) {
-        return res.json(
-            recipes.filter((recipe) => recipe.minutes <= maxMinutes)
-        );
-    } 
-
+    if (maxMinutes) return res.json( recipes.filter((recipe) => recipe.minutes <= maxMinutes));
     res.json(recipes)
 });
 
 // GET recipe by id
 app.get("/recipes/:id", (req, res) => {
-
     const id = Number(req.params.id);
     const recipe = recipes.find((recipe) => recipe.id === id);
-
-    if (!recipe) {
-        return res.status(404).json({
-            fehler: "Rezept nicht gefunden",
-        });
-    }
-
+    if (!recipe) return res.status(404).json({ fehler: "Rezept nicht gefunden" });
     res.json(recipe)
 });
 

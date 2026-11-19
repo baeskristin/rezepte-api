@@ -1,5 +1,5 @@
 {
   "functions": {
-    "src/app.ts": { "includeFiles": "src/**/*.router.ts" }
+    "src/app.ts": { "includeFiles": "src/**/routes.ts" }
   }
 }

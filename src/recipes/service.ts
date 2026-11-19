@@ -1,5 +1,5 @@
-import { mockRecipes, Recipe } from "./recipe";
-import { RecipeNotFoundError, ValidationError } from "./error";
+import { mockRecipes, Recipe } from "./recipe.ts";
+import { RecipeNotFoundError, ValidationError } from "./error.ts";
 
 let nextId = 5;
 

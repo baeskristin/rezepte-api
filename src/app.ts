@@ -2,9 +2,12 @@ import express from "express";
 import { logger } from "./middleware/logger.ts";
 import { ErrorHandler } from "./middleware/error.ts";
 import recipeRoutes from "./recipes/routes.ts";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "../swagger.ts";
 
 const app = express();
 app.use(express.json());
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(logger);
 

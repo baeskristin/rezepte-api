@@ -3,18 +3,10 @@ import { logger } from "./middleware/logger.ts";
 import { ErrorHandler } from "./middleware/error.ts";
 import recipeRoutes from "./recipes/routes.ts";
 import swaggerUi from "swagger-ui-express";
-import swaggerJSDoc from "swagger-jsdoc";
+import { swaggerSpec } from "../swagger.ts";
 import morgan from "morgan";
 
 const app = express();
-const swaggerSpec = swaggerJSDoc({
-    definition: {
-        openapi: "3.0.0",
-        info: { title: "Recipe API", version: "1.0.0" }
-    },
-    apis: [`${import.meta.dirname}/**/*.ts`],
-  })
-
 const CDN = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14";
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     customCssUrl: `${CDN}/swagger-ui.min.css`,

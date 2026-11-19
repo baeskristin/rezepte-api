@@ -8,14 +8,19 @@ export const swaggerSpec = swaggerJsdoc({
       version: "1.0.0",
     },
     components: {
-        securitySchemes: {
-            ApiKeyAuth: {
-                type: "apiKey",
-                in: "header",
-                name: "x-api-key",
-            },
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-api-key",
         },
+      },
     },
+    security: [
+      {
+        ApiKeyAuth: [],
+      },
+    ],
   },
-  apis: ["./src/**/*.ts"],
+    apis: ["./src/**/*.ts"],
 });

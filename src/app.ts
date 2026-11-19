@@ -7,7 +7,34 @@ import { swaggerSpec } from "../swagger.ts";
 
 const app = express();
 app.use(express.json());
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.get("/openapi.json", (req, res) => {
+  res.json(swaggerSpec);
+});
+
+// Custom Swagger UI for Vercel (otherwise static files were not available after deployment)
+app.get("/swagger", (req, res) => {
+  res.send(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipe API Docs</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script>
+    SwaggerUIBundle({
+      url: "/openapi.json",
+      dom_id: "#swagger-ui"
+    });
+  </script>
+</body>
+</html>
+`);
+});
 
 app.use(logger);
 

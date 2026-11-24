@@ -1,14 +1,15 @@
 CREATE TABLE IF NOT EXISTS recipes (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    titel VARCHAR(255) NOT NULL,
-    minutes BIGINT NOT NULL,
-    servings BIGINT NOT NULL,
-    vegetarian BOOLEAN NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    id BIGINT NOT NULL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    minutes INT NOT NULL,
+    servings INT NOT NULL,
+    rating VARCHAR(50) NOT NULL,
+    price DECIMAL(5,2) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS ingredients (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
 
@@ -16,7 +17,7 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
     recipe_id BIGINT NOT NULL,
     ingredient_id INT NOT NULL,
     amount VARCHAR(255) NOT NULL,
-    
+
     PRIMARY KEY (recipe_id, ingredient_id),
 
     FOREIGN KEY (recipe_id)
@@ -26,66 +27,27 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
         REFERENCES ingredients(id)
 );
 
--- 1) Recipes
-
-INSERT INTO recipes (titel, minutes, servings, vegetarian)
+INSERT INTO recipes (id, title, minutes, servings, rating, price)
 VALUES
-    ('Spaghetti Carbonara', 20, 2, FALSE),
-    ('Lentil Curry', 35, 4, TRUE);
+    (1, 'Spaghetti Carbonara', 20, 2, '4 Stars', 1.50),
+    (2, 'Pizza', 15, 1, '3 Stars', 3.50),
+    (3, 'Chili Sin Carne', 40, 2, '5 Stars', 1.50),
+    (4, 'Pasta Pan', 25, 3, '2 Stars', 2.00);
 
--- 2) Ingredients
-
-INSERT INTO ingredients (name)
+INSERT INTO ingredients (id, name)
 VALUES
-    ('Spaghetti'),
-    ('Egg'),
-    ('Bacon'),
-    ('Lentils'),
-    ('Coconut Milk'),
-    ('Onion');
-
--- 3) Recipe-Ingredients
+    (1, 'Spaghetti'),
+    (2, 'Egg'),
+    (3, 'Cheese'),
+    (4, 'Tomato Sauce'),
+    (5, 'Beans');
 
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id, amount)
 VALUES
-    (1, 1, '200 g'),    
-    (1, 2, '2 pieces'), 
-    (1, 3, '100 g'),      
-    (2, 4, '250 g'),    
-    (2, 5, '400 ml'),   
-    (2, 6, '1 piece');   
+    (1, 1, '200 g'),
+    (1, 2, '2 pieces'),
+    (1, 3, '50 g'),
 
--- 4) Own Recipe
-
-INSERT INTO recipes (titel, minutes, servings, vegetarian)
-VALUES
-    ('Tomato Mozzarella Salad', 10, 2, TRUE);
-
-INSERT INTO ingredients (name)
-VALUES
-    ('Tomato'),
-    ('Mozzarella'),
-    ('Basil');
-
-INSERT INTO recipe_ingredients (recipe_id, ingredient_id, amount)
-VALUES
-    (3, 7, '2 pieces'),
-    (3, 8, '125 g'),
-    (3, 9, '10 leaves');
-
-
-SELECT * FROM recipes;
-SELECT * FROM ingredients;
-SELECT * FROM recipe_ingredients;
-
--- Read data
-SELECT r.titel, i.name, ri.amount
-FROM recipes r
-JOIN recipe_ingredients ri ON ri.recipe_id = r.id
-JOIN ingredients i ON i.id = ri.ingredient_id
-WHERE r.id = 1;
-
--- Change and delete
-UPDATE recipes SET servings = 6 WHERE titel = 'Lentil Curry';
-SELECT * FROM recipes;
-DELETE FROM recipe_ingredients WHERE recipe_id = 1;
+    (2, 4, '150 g'),
+    
+    (3, 5, '300 g');

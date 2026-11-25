@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { getAllRecipes, getRecipeById, createRecipe, deleteRecipe } from "./service.ts";
+import { getAllRecipes, getRecipeById, createRecipe, addIngredient, deleteRecipe } from "./service.ts";
 
 export async function getRecipesHandler(req: Request, res: Response, next: NextFunction) {
   try {
-    const maxMinutes = req.query.maxMinutes ? Number(req.query.maxMinutes) : undefined;
-    const recipes = await getAllRecipes(maxMinutes);
+    const recipes = await getAllRecipes();
     res.json(recipes);
   } catch (err) {
     next(err);
@@ -27,6 +26,17 @@ export async function createRecipeHandler(req: Request, res: Response, next: Nex
     res.status(201).json(newRecipe);
   } catch (err) {
     next(err);
+  }
+}
+
+export async function addIngredientHandler(req: Request, res: Response, next: NextFunction) {
+    try {
+        await addIngredient(Number(req.params.id), req.body.ingredientId, req.body.name, req.body.amount);
+        res.status(201).json({
+            message: "Ingredient added"
+        });
+    } catch (error) {
+        next(error);
   }
 }
 

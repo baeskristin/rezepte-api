@@ -1,29 +1,38 @@
-import { mockRecipes, Recipe } from "./recipe.ts";
+import { Recipe } from "./recipe.ts";
 import { RecipeNotFoundError, ValidationError } from "./error.ts";
+import { getAllRecipes as getAllBooksRepo, 
+        getRecipeById as getRecipeByIdRepo, 
+        createRecipe as createRecipeRepo,
+        createIngredients as createIngredientsRepo,
+        addIngredient as addIngredientRepo,
+        deleteRecipe as deleteRecipeRepo
+    } from "./repo.ts";
 
-let nextId = 5;
-
-export async function getAllRecipes(maxMinutes?: number): Promise<Recipe[]> {
-    if (maxMinutes !== undefined) return mockRecipes.filter((recipe) => recipe.minutes <= maxMinutes);
-    return mockRecipes;
+export async function getAllRecipes(): Promise<Recipe[]> {
+    return await getAllBooksRepo();
 }
 
 export async function getRecipeById(id: number): Promise<Recipe | null> {
-    const recipe = mockRecipes.find((recipe) => recipe.id === id);
+    const recipe = getRecipeByIdRepo(id);
     if (!recipe) throw new RecipeNotFoundError(id);
-    return recipe
+    return recipe;
 }
 
 export async function createRecipe(data: Omit<Recipe, "id">): Promise<Recipe> {
     if (!data.title) throw new ValidationError("Ein Rezept braucht einen Titel");
-    const newRecipe: Recipe = { id: nextId++, ...data };
-    mockRecipes.push(newRecipe);
-    return newRecipe;
+     const recipe = await createRecipeRepo(data);
+
+    if (data.ingredients?.length) {
+        await createIngredientsRepo(recipe.id,data.ingredients);
+    }
+
+    return {...recipe, ingredients: data.ingredients ?? []};
+}
+
+export async function addIngredient(recipeId: number, ingredientId: number, name: string , amount: string): Promise<void> {
+    await addIngredientRepo(recipeId, ingredientId, name, amount);
 }
 
 export async function deleteRecipe(id: number): Promise<boolean> {
-    const index = mockRecipes.findIndex((recipe) => recipe.id === id);
-    if (index === -1) return false;
-    mockRecipes.splice(index, 1);
-    return true;
+    return await deleteRecipeRepo(id);
 }

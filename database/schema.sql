@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS recipes (
-    id BIGINT NOT NULL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     minutes INT NOT NULL,
     servings INT NOT NULL,

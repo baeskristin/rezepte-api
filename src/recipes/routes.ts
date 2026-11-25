@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getRecipesHandler, getRecipeHandler, createRecipeHandler, deleteRecipeHandler } from "./controller.ts";
+import { getRecipesHandler, getRecipeHandler, createRecipeHandler, addIngredientHandler, deleteRecipeHandler } from "./controller.ts";
 import { requireApiKey } from "../middleware/auth.ts";
 
 const router = Router();
@@ -57,6 +57,29 @@ router.get("/", getRecipesHandler);
  *         description: Recipe created successfully.
  */
 router.post("/", createRecipeHandler);
+
+/**
+ * @swagger
+ * /recipes/{id}/ingredients:
+ *   post:
+ *     tags:
+ *       - Recipes
+ *     summary: CREATE a new recipe
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - recipeId
+ *               - name
+ *               - amount
+ *      responses:
+ *       201:
+ *         description: Recipe created successfully.
+ */
+router.post(":id/ingredients",  addIngredientHandler)
 
 /**
  * @swagger

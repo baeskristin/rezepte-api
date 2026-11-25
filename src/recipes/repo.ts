@@ -1,6 +1,5 @@
 import getDatabaseConnectionPool from "../utils/pool.postgres";
 import { Recipe, Ingredient } from "./recipe";
-import { v4 as uuidv4 } from "uuid";
 
 const pool = getDatabaseConnectionPool();
 

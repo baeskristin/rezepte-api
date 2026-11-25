@@ -64,7 +64,7 @@ router.post("/", createRecipeHandler);
  *   post:
  *     tags:
  *       - Recipes
- *     summary: CREATE a new recipe
+ *     summary: CREATE a new ingredient
  *     requestBody:
  *       required: true
  *       content:
@@ -75,11 +75,11 @@ router.post("/", createRecipeHandler);
  *               - recipeId
  *               - name
  *               - amount
- *      responses:
+ *     responses:
  *       201:
- *         description: Recipe created successfully.
+ *         description: Ingredient created successfully.
  */
-router.post(":id/ingredients",  addIngredientHandler)
+router.post("/:id/ingredients",  addIngredientHandler)
 
 /**
  * @swagger
